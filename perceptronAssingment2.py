@@ -22,9 +22,12 @@ def perceptron_with_margin(X, y, gamma, max_rounds=1000):
         Final weight vector after training.
     round_t : int
         The last round index when the algorithm finished (for informational purposes).
+    mistakes : int
+        Total number of mistakes made by the algorithm.
     """
     n_samples, n_features = X.shape
     w = np.zeros(n_features)  # Initialize w to the zero vector
+    mistakes = 0
 
     for round_t in range(1, max_rounds + 1):
         mistake_found = False
@@ -36,19 +39,21 @@ def perceptron_with_margin(X, y, gamma, max_rounds=1000):
             # Update conditions
             if np.dot(w, x_i) <= gamma / 2 and y_i == +1:
                 w = w + x_i
+                mistakes += 1
                 mistake_found = True
                 break
             elif np.dot(w, x_i) >= gamma / 2 and y_i == -1:
                 w = w - x_i
+                mistakes += 1
                 mistake_found = True
                 break
 
         if not mistake_found:
             print(f"No mistakes in round {round_t}. Algorithm converged.")
-            return w, round_t
+            return w, round_t, mistakes
 
     print(f"Reached max rounds ({max_rounds}) without perfect convergence.")
-    return w, max_rounds
+    return w, max_rounds, mistakes
 
 def brute_force_max_margin(X, y):
     """
@@ -133,10 +138,11 @@ if __name__ == "__main__":
 
     # 2. Run the perceptron with a chosen margin
     gamma = 0.5
-    w_final, t_final = perceptron_with_margin(X, y, gamma, max_rounds=1000)
+    w_final, t_final, total_mistakes = perceptron_with_margin(X, y, gamma, max_rounds=1000)
 
     print("Final weight vector from Perceptron:", w_final)
     print("Algorithm finished on round:", t_final)
+    print("Total mistakes made:", total_mistakes)
 
     # 3. Find the hyperplane with the largest margin using brute force
     best_w, best_b, max_margin = brute_force_max_margin(X, y)
