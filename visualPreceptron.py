@@ -102,7 +102,7 @@ if __name__ == "__main__":
     y_list = []
 
     class_a = "versicolor"
-    class_b = "setosa"
+    class_b = "virginica"
 
     with open("iris.txt", "r") as f:
         for line in f:
