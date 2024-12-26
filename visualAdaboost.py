@@ -71,8 +71,8 @@ if __name__ == "__main__":
     lines = generate_all_lines(X_train)
     print(f"Number of lines in hypothesis set: {len(lines)}")
 
-    # 4. Train AdaBoost for K=8
-    K = 8
+    # 4. Train AdaBoost for K=3
+    K = 9
     selected_lines, alpha_list = adaboost_train(lines, X_train, y_train, K=K)
 
     # 5. Plot the decision boundary of the final ensemble (using all K)
